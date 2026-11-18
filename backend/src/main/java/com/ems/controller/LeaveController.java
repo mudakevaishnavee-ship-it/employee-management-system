@@ -2,7 +2,7 @@ package com.ems.controller;
 
 import com.ems.dto.LeaveRequestDto;
 import com.ems.dto.LeaveResponseDto;
-import com.ems.entity.LeaveBalance;
+import com.ems.dto.LeaveBalanceDto;
 import com.ems.enums.LeaveStatus;
 import com.ems.service.LeaveService;
 import jakarta.validation.Valid;
@@ -57,7 +57,7 @@ public class LeaveController {
     }
 
     @GetMapping("/balance")
-    public ResponseEntity<List<LeaveBalance>> getMyLeaveBalance(Authentication auth) {
+    public ResponseEntity<List<LeaveBalanceDto>> getMyLeaveBalance(Authentication auth) {
         return ResponseEntity.ok(leaveService.getLeaveBalances(auth.getName()));
     }
 }

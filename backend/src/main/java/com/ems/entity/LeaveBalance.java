@@ -27,6 +27,6 @@ public class LeaveBalance {
     @Column(nullable = false)
     private Integer usedLeaves;
 
-    @Column(nullable = false)
+    @Column(name = "leave_year", nullable = false)
     private Integer year;
 }

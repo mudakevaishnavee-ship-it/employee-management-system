@@ -17,10 +17,10 @@ public class Payslip {
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    @Column(nullable = false)
+    @Column(name = "pay_month", nullable = false)
     private Integer month;
 
-    @Column(nullable = false)
+    @Column(name = "pay_year", nullable = false)
     private Integer year;
 
     @Column(nullable = false)

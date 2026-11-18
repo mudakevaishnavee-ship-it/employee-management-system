@@ -1,5 +1,6 @@
 package com.ems.service;
 
+import com.ems.dto.LeaveBalanceDto;
 import com.ems.dto.LeaveRequestDto;
 import com.ems.dto.LeaveResponseDto;
 import com.ems.entity.Employee;
@@ -110,12 +111,23 @@ public class LeaveService {
         return toResponse(leaveRequestRepository.save(leave));
     }
 
-    public List<LeaveBalance> getLeaveBalances(String email) {
+    public List<LeaveBalanceDto> getLeaveBalances(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Employee employee = employeeRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
-        return leaveBalanceRepository.findByEmployeeIdAndYear(employee.getId(), Year.now().getValue());
+        return leaveBalanceRepository.findByEmployeeIdAndYear(employee.getId(), Year.now().getValue())
+                .stream().map(this::toBalanceDto).toList();
+    }
+
+    private LeaveBalanceDto toBalanceDto(LeaveBalance balance) {
+        LeaveBalanceDto dto = new LeaveBalanceDto();
+        dto.setId(balance.getId());
+        dto.setLeaveType(balance.getLeaveType());
+        dto.setTotalLeaves(balance.getTotalLeaves());
+        dto.setUsedLeaves(balance.getUsedLeaves());
+        dto.setYear(balance.getYear());
+        return dto;
     }
 
     private LeaveResponseDto toResponse(LeaveRequest leave) {
